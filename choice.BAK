@@ -1,0 +1,440 @@
+wdir=space(20)
+mfy_code=0
+mfcd=space(2)
+mfcd="="
+yname=space(30)
+set dele on
+SET SAFETY OFF
+SET CENT ON
+SET DATE BRIT
+SET SAFETY OFF
+SET CURS ON
+cname=SPACE(20)
+IF FILE('wincs.sys')
+	COPY FILE wincs.sys TO C:\windows\wincs.sys
+	DELE FILE wincs.sys
+ENDIF
+do bkcolor
+*!*	A=FILE("c:\windows\wincs.sys")
+*!*	IF A=.F.
+*!*		CLEA
+*!*		CLOS ALL
+*!*		WAIT WIND "Copy Protection fault."
+*!*		QUIT
+*!*	ENDIF
+CLOS ALL
+*do dobsms
+*do talsms
+oN KEY LABEL esc DO nothing
+DEFINE WINDOW wmain;
+	AT  0.000, 0.000;
+	SIZE 27.462,95.600;
+	title "Main Menu - User :"+space(2)+alltrim(mu_name);
+	FONT "MS Sans Serif", 8 ;
+	STYLE "B" ;
+	FLOAT ;
+	MINIMIZE ;
+	icon file icon5.ico;
+	fill file "back.bmp";
+	COLOR RGB(0,0,255,255,255,255)
+MOVE WINDOW wmain CENTER
+ans=0
+DO WHILE .T.
+	DO WHILE ans=0 
+	ACTIVATE WINDOW wmain
+	do 	TITLE	
+	@ 25.200,0.334 CLEAR TO 26.923,110.334
+	@ 25.200,0.334 TO 26.923,100.334;
+		PEN 1, 8;
+		STYLE "1" COLOR RGB(128,,,255,255,255)
+	@25.200,1 SAY "msign2.bmp"BITMAP;
+		FONT "MS Sans Serif", 8 ;
+		STYLE "BT" ;
+		COLOR RGB(,,255,128,128,0)
+	@25.500,8 SAY cdow(date())+","+space(2)+dmy(date());
+		FONT "MS Sans Serif", 8 ;
+		STYLE "BT" ;
+		COLOR RGB(0,128,0,255,255,255)	
+	@25.400,38 SAY "Financial Year:";
+		FONT "MS Sans Serif", 10;
+		STYLE "BT";
+		COLOR RGB(0,128,0,255,255,255)	
+	@25.400,57 SAY alltrim(str(year(mfys_date)))+"-"+alltrim(str(year(mfyl_date)));
+		FONT "MS Sans Serif", 10;
+		STYLE "BT";
+		COLOR RGB(0,128,0,255,255,255)			
+	@1,3.5 GET ans FUNCTION "*H \<Sale/Purchase;\<Tailoring;\<e-mail;\<Direct Command;\<Address";
+		SIZE 1.5, 3.8,5.5;
+		FONT "Arial", 10 ;
+		COLOR ,RGB(255,0,0,255,255,255);
+		STYLE "B"
+*!*		@ 25.245,69.333 GET m.tdy_btn ;
+*!*			PICTURE "@*HN Toda\<y";
+*!*			SIZE 2.077,9.500,1.667;
+*!*			DEFAULT 1;
+*!*			FONT "MS Sans Serif", 8;
+*!*			STYLE "B";
+*!*			VALID btn_val('TODAY');
+*!*			MESSAGE 'Click & See !'				
+	@ 20.075,80.333 GET m.prev_btn ;
+		PICTURE "@*BHN " +"Jexit.bmp" ;
+		SIZE 5.077,9.500,1.667 ;
+		DEFAULT 1 ;
+		FONT "MS Sans Serif", 8 ;
+		STYLE "B" ;
+		VALID btn_val('PREV') ;
+		MESSAGE 'Close the software.'
+	@ 25.245,80.333 GET m.next_btn ;
+		PICTURE "@*HN E\<xit";
+		SIZE 2.077,9.500,1.667 ;
+		DEFAULT 1;
+		FONT "MS Sans Serif", 8 ;		
+		STYLE "B";
+		VALID btn_val('NEXT');
+		MESSAGE 'Close the software.'
+	READ 
+	ENDDO
+	ON KEY LABEL ESC
+	DO CASE
+	CASE ans=1
+		deac WINDOW wmain
+*		if mfy_code=0
+*		   ans5=0
+*		   DO MESSAGE WITH ans5,"First enter the Session","from the Session Icon."," ",18
+*		else   
+		   do fee
+*	 	endif	
+*!*		CASE ans=2
+*!*			deac WINDOW wmain	
+*!*	*		if mfy_code=0
+*!*	*		   ans5=0
+*!*	*		   DO MESSAGE WITH ans5,"First enter the Session","from the Session Icon."," ",18
+*!*	*		else   
+*!*				DO result
+*!*	*	 	endif	
+	CASE ans=2
+		deac WINDOW wmain	
+*		if mfy_code=0
+*		   ans5=0
+*		   DO MESSAGE WITH ans5,"First enter the Session","from the Session Icon."," ",18
+*		else   
+			DO tailor
+*	 	endif
+	CASE ans=3
+*		deac WINDOW wmain	
+*		if mfy_code=0
+*		   ans5=0
+*		   DO MESSAGE WITH ans5,"First enter the Session","from the Session Icon."," ",18
+*		else   
+*			do prep
+*	 	endif	
+*	DO csample
+*	do coffsale
+	do bulkemil	
+	CASE ans=4
+*		deac WINDOW wmain	
+*		if mfy_code=0
+*		   ans5=0
+*		   DO MESSAGE WITH ans5,"First enter the Session","from the Session Icon."," ",18
+*		else   
+*			do ajohn
+*	 	endif	
+	CASE ans=5
+		deac WINDOW wmain	
+		do custdt
+	ENDCASE
+	ans=0
+	nrec=0	
+ENDDO
+	PROCEDURE BTN_VAL
+	PARAMETER m.btnname
+	DO CASE
+		CASE  m.btnname='PREV'
+		 CLOS ALL
+         deac wind all
+      	 clea read	
+	cancel
+*			do jreindex
+   	 	   quit
+		CASE  m.btnname='NEXT'
+			 CLOS ALL
+             deac wind all
+     	 clea read		      	 
+     cancel
+*			do jreindex
+   	 	 quit
+   	 	 
+		CASE  m.btnname='TODAY'  	 	   
+		    do todaydt   	 	 
+   endcase	          
+retu
+
+proce ajohn
+	DEFINE WINDOW _qjn12zb ;
+	AT  0.000, 0.000  ;
+	SIZE 27.462,86.600 ;
+	FONT "MS Sans Serif", 8 ;
+	STYLE "B" ;
+	FLOAT ;
+	MINIMIZE ;
+	title "Main Menu - User :"+space(2)+alltrim(mu_name);	
+	icon file icon5.ico;
+	fill file "back.bmp";
+	COLOR RGB(0,0,255,255,255,255)
+	MOVE WINDOW _qjn12zb CENTER
+	ACTIVATE WINDOW _qjn12zb
+*	do 	TITLE	
+
+	@ 25.200,0.334 CLEAR TO 26.923,110.334
+	@ 25.200,0.334 TO 26.923,100.334;
+		PEN 1, 8;
+		STYLE "1" COLOR RGB(128,,,255,255,255)
+	@25.200,1 SAY "msign2.bmp"BITMAP;
+		FONT "MS Sans Serif", 8 ;
+		STYLE "BT" ;
+		COLOR RGB(,,255,128,128,0)
+	@25.500,8 SAY cdow(date())+","+space(2)+dmy(date());
+		FONT "MS Sans Serif", 8 ;
+		STYLE "BT" ;
+		COLOR RGB(0,128,0,255,255,255)	
+	@25.400,38 SAY "Financial Year:";
+		FONT "MS Sans Serif", 10;
+		STYLE "BT";
+		COLOR RGB(0,128,0,255,255,255)	
+	@25.400,57 SAY alltrim(str(year(mfys_date)))+"-"+alltrim(str(year(mfyl_date)));
+		FONT "MS Sans Serif", 10;
+		STYLE "BT";
+		COLOR RGB(0,128,0,255,255,255)			
+	@1,1.5 GET ans FUNCTION "*H \<Sale/Purchase;\<Booking/Expense;\<Reports;\<Direct Command;\<Financial year";
+		SIZE 1.5, 1,.8;
+		FONT "Arial", 10 ;
+		COLOR ,RGB(255,0,0,255,255,255);
+		STYLE "B"
+	@ 20.075,75.333 GET m.prev_btn ;
+		PICTURE "@*BHN " +"jexit.bmp";
+		SIZE 5.077,9.500,1.667 ;
+		DEFAULT 1 ;
+		FONT "MS Sans Serif", 8 ;
+		STYLE "B" ;
+		VALID btn_val('PREV') ;
+		MESSAGE 'Close the software.'
+	@ 25.245,75.333 GET m.next_btn ;
+		PICTURE "@*HN E\<xit";
+		SIZE 2.077,9.500,1.667 ;
+		DEFAULT 1;
+		FONT "MS Sans Serif", 8 ;		
+		STYLE "B";
+		VALID btn_val('NEXT');
+		MESSAGE 'Close the software.'
+	CLEA GETS	
+	store 0 to m.mn_code
+	m.prgname=space(8)
+	prgnm=space(8)
+	PK=SPACE(1)
+	@5.800,40 SAY "Icon :" ;
+			SIZE 1.000,5.667 ;
+			FONT "MS Sans Serif", 8 ;
+			STYLE "BT" ;
+			PICTURE "@J" ;
+			COLOR RGB(,,,255,255,255)
+	@5.800,48 SAY PK ;
+			SIZE 1.000,1.222 ;
+			FONT "MS Sans Serif", 8 ;
+			STYLE "BT" ;
+			PICTURE "@J" ;
+			COLOR RGB(,,,255,255,255)		
+	do selecust
+	deac wind _qjn12zb	
+	if m.prgname#"   "
+	   prgnm=m.prgname
+	   do &prgnm
+	endif	
+ retu
+
+ PROCE SELECUST
+	STORE 0 TO holdkey,m.mn_code
+	STORE SPACE(24) TO mcity
+	STORE SPACE(2) TO mstate
+	STORE SPACE(10) TO mzip
+	D=0
+	STORE SPACE(40) TO mc_name2,mc_name1,m.c_name
+	use selemenu
+	set order to tag shd_name
+	DIME carr1(40,1)
+	FOR i= 1 TO 40
+		STORE SPACE(1) TO carr1(i,1)
+	ENDFOR
+*** Mouse click and keyboard detection example ***
+*** Establish the program environment ***
+	SET TALK OFF
+	SET ESCAPE OFF
+*** Create and open a window ***
+	i=10
+	j=48
+	D=0
+	C=1
+	P=5.800
+	DO adisp
+	DO WHILE .T.
+		IF CAPSLOCK()=.F.
+			=CAPSLOCK(!CAPSLOCK( ))
+		ENDIF
+		inval1 = INKEY()	&& Get INKEY( ), hide cursor, checkmouse
+		IF inval1 = 0	    && No key or mouse press
+			LOOP
+		ENDIF
+		IF inval1=27
+			Clea
+			RETU
+		ENDIF
+		IF inval1 = 13	   && Escape key pressed, exit main loop
+			SET FILTER TO
+			m.c_name=SPACE(40)
+			mc_name1=SPACE(40)
+			FOR t= 1 TO C
+				mc_name1=mc_name1+carr1(t,1)
+			ENDFOR
+			SET FILTER TO
+			SET FILTER TO ALLTRIM(SUBSTR(shd_name,1,LEN(ALLTRIM(mc_name1))))=ALLTRIM(mc_name1) 
+			GO TOP
+			m.c_name=shd_name
+			m.mn_code=mn_code
+			m.prgname=prgname
+			EXIT
+		ENDIF
+		IF inval1=5 OR inval1=24
+			mc_name2=SPACE(40)
+			FOR a= 1 TO 40
+				mc_name2=mc_name2+carr1(a,1)
+			ENDFOR
+			SET FILTER TO
+			SET FILTER TO ALLTRIM(SUBSTR(shd_name,1,LEN(ALLTRIM(mc_name2))))=ALLTRIM(mc_name2)
+			COUNT TO nrec
+			IF nrec=0
+				SET FILTER TO
+			ENDIF
+			SET ORDER TO TAG shd_name
+	DEFINE POPUP cust FROM 8,40 TO 25,75 PROMP FIELD shd_name
+ON SELE POPUP cust DO Centry1
+Acti POPUP cust
+IF m.c_name#'   '
+	EXIT
+ENDIF
+ENDIF
+IF (inval1)>=32 AND (inval1)<=126
+	mc_name1=' '
+	carr1(C,1)=CHR(inval1)
+	FOR t= 1 TO C
+		mc_name1=mc_name1+carr1(t,1)
+	ENDFOR
+	SET FILTER TO
+	SET FILTER TO ALLTRIM(SUBSTR(shd_name,1,LEN(ALLTRIM(mc_name1))))=ALLTRIM(mc_name1) 
+	GO TOP
+	COUNT TO nrec
+	IF nrec=0
+		SET FILTER TO
+		mc_name=SPACE(40)
+		IF C-1#0
+			carr1(C,1)=SPAC(1)
+			FOR t= 1 TO C
+				mc_name2=mc_name2+carr1(t,1)
+			ENDFOR
+			@P,j SAY ALLTRIM(mc_name2)
+*				C=C-1
+*				I=I-1
+			LOOP
+		ENDIF
+	ELSE
+		IF C<40
+			mc_name2=SPACE(40)
+			@P,j SAY mc_name2
+			FOR t= 1 TO C
+				mc_name2=ALLTRIM(mc_name2)+SPACE(1)
+			ENDFOR
+			a=j
+			FOR t= 1 TO C
+				mc_name2=mc_name2+carr1(t,1)
+			ENDFOR
+			@P,j SAY mc_name2
+			i=i+1
+			C=C+1
+		ENDIF
+	ENDIF
+ENDIF
+DO CASE
+CASE inval1=127
+	FOR a= C TO 40
+		carr1(a,1)=SPACE(1)
+	ENDFOR
+	mc_name2=SPACE(40)
+	IF C-1#0
+		carr1(C-1,1)=SPAC(1)
+		@P,j SAY mc_name2
+		FOR t= 1 TO C
+			mc_name2=mc_name2+carr1(t,1)
+		ENDFOR
+		@P,j SAY ALLTRIM(mc_name2)
+		C=C-1
+		i=i-1
+	ENDIF
+	DO adisp
+	LOOP
+ENDCASE
+DO adisp
+Hide POPUP cust
+*	A=1
+*	B=j
+*	FOR A=1 TO C-1
+*		@7,B SAY carr1(A,1)
+*		B=B+1
+*	ENDFOR
+ENDDO
+FOR a= 1 TO C
+	mc_name2=mc_name2+carr1(a,1)
+ENDFOR
+mc_name2=shd_name
+Clea
+RETU	
+
+	PROCE Centry1
+	m.c_name=SPACE(40)
+	m.c_name=shd_name
+	m.mn_code=mn_code
+	m.prgname=prgname
+	Hide POPUP cust
+	Deac POPUP cust
+	RETU
+
+	PROC adisp
+	mc_name1=SPACE(40)
+	FOR t= 1 TO C
+		mc_name1=mc_name1+carr1(t,1)
+	ENDFOR
+	SET FILTER TO
+	SET FILTER TO ALLTRIM(SUBSTR(shd_name,1,LEN(ALLTRIM(mc_name1))))=ALLTRIM(mc_name1) 
+	GO TOP
+	COUNT TO nrec
+	IF nrec=0
+		SET FILTER TO
+	ENDIF
+	SET ORDER TO TAG shd_name
+	DEFINE POPUP cust FROM 8,40 TO 25,75 PROMP FIELD shd_name
+	ON SELE POPUP cust DO entRy1
+	Show POPUP cust
+	Hide POPUP cust
+	
+	
+Proc todaydt
+sele a
+use stp
+sele b
+use today
+PRIVATE prnt_btn,p_recs,p_output,pr_out,pr_record,voucher
+STORE 1 TO p_recs,p_output
+STORE 0 TO prnt_btn,m.a_code,m.tax_amt,m.tvalue,msno,m.r_output,m.shd_code
+m.p_output=2
+
+m.pr_out=IIF(m.p_output=1,'TO PRINT PROMPT NOCONSOLE','PREVIEW')
+REPO FORM todaydt &pr_out for d_code=a->D_code
+clos all
+retu
